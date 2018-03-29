@@ -31,6 +31,16 @@ public class Model {
     private QueueForTransactions<Double> queueNotLoadedContainers;
     private QueueForTransactions<Plane> queuePlanes;
 
+    public QueueForTransactions<Plane> getQueueTO() {
+        return queueTO;
+    }
+
+    public void setQueueTO(QueueForTransactions<Plane> queueTO) {
+        this.queueTO = queueTO;
+    }
+
+    private QueueForTransactions<Plane> queueTO;
+
     private DiscretHisto workingTeamsHisto;
     private DiscretHisto customsContainersHisto;
     private DiscretHisto notLoadedContainersHisto;
