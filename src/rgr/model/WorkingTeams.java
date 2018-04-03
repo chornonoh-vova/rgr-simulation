@@ -31,10 +31,10 @@ public class WorkingTeams extends Actor {
     protected void rule() throws DispatcherFinishException {
         BooleanSupplier queueSizePlane = () -> model.getQueuePlanes().size() > 0;
         BooleanSupplier queueSizeContainer = () -> model.getQueueNotLoadedContainers().size() > 0;
-        while (getDispatcher().getCurrentTime() <= modellingTime) { ;
+        while (getDispatcher().getCurrentTime() <= modellingTime) {
             waitForCondition(queueSizePlane, "wait for plane");
             Plane plane = queuePlane.removeFirst();
-            while (!plane.isFull()) {
+            while (plane.isFull()) {
                 waitForCondition(queueSizeContainer, "waiting for container");
                 model.getQueueWorkingTeams().add(this);
                 double container = model.getQueueNotLoadedContainers().removeFirst();

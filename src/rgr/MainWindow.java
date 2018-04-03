@@ -77,6 +77,12 @@ public class MainWindow {
 
     private ChooseData numWorkingTeams;
 
+    public Diagram getTechnicalService() {
+        return technicalService;
+    }
+
+    private Diagram technicalService;
+
     public MainWindow() {
         numWorkingTeams.setTitle("Кількість бригад");
         containerInterval.setTitle("Інтервал появи контейнерів");
@@ -137,6 +143,7 @@ public class MainWindow {
         customsContainers.clear();
         notLoadedContainers.clear();
         planeQueue.clear();
+        technicalService.clear();
         //Створюємо диспетчера
         Dispatcher dispatcher = new Dispatcher();
         //Створюємо модель за допомогою фабрики

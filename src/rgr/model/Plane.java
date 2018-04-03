@@ -1,6 +1,5 @@
 package rgr.model;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import process.Actor;
 import process.DispatcherFinishException;
 import process.QueueForTransactions;
@@ -47,19 +46,22 @@ public class Plane extends Actor {
 
     @Override
     protected void rule() throws DispatcherFinishException {
-        BooleanSupplier full = () -> !this.isFull();
-        BooleanSupplier ready = () -> this.isReady();
+        BooleanSupplier full = this::isFull;
+        BooleanSupplier ready = this::isReady;
         while (getDispatcher().getCurrentTime() <= modellingTime) {
             queuePlane.add(this);
-            waitForCondition(full, "plane loading...");
+            waitForCondition(full, "****************\nplane loading...");
+            getDispatcher().printToProtocol("plane starts");
             holdForTime(mainWindow.getFlyTime().next());
             //визначає час обслуговування
+            getDispatcher().printToProtocol("*********************\nрозвантажується");
             while (!containerList.isEmpty()) {
                 double container = containerList.remove(0);
                 double serviceTime = dispatcher.getCurrentTime() - container;
                 //TODO: add to histo
             }
             holdForTime(mainWindow.getFlyTime().next());
+            getDispatcher().printToProtocol("******************\nТО");
             this.ready = false;
             model.getQueueTO().add(this);
             waitForCondition(ready, "TO");
@@ -67,7 +69,7 @@ public class Plane extends Actor {
     }
 
     public boolean isFull() {
-        return containerList.size() >= getSize();
+        return containerList.size() < getSize();
     }
 
     public boolean isReady() {

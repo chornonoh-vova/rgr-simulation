@@ -32,11 +32,10 @@ public class Model {
     private QueueForTransactions<Plane> queuePlanes;
 
     public QueueForTransactions<Plane> getQueueTO() {
+        if (queueTO == null) {
+            queueTO = new QueueForTransactions<>("QueueTO", dispatcher, getTOHisto());
+        }
         return queueTO;
-    }
-
-    public void setQueueTO(QueueForTransactions<Plane> queueTO) {
-        this.queueTO = queueTO;
     }
 
     private QueueForTransactions<Plane> queueTO;
@@ -45,6 +44,12 @@ public class Model {
     private DiscretHisto customsContainersHisto;
     private DiscretHisto notLoadedContainersHisto;
     private DiscretHisto planeQueueHisto;
+
+    public DiscretHisto getTOHisto() {
+        return TOHisto;
+    }
+
+    private DiscretHisto TOHisto;
 
     public Model(Dispatcher dispatcher, MainWindow mainWindow) {
         this.dispatcher = dispatcher;
@@ -57,6 +62,7 @@ public class Model {
         dispatcher.addStartingActor(getMultiCustom());
         dispatcher.addStartingActor(getMultiWorkingTeams());
         dispatcher.addStartingActor(getMultiPlane());
+        dispatcher.addStartingActor(getTechnicalService());
     }
 
     public Generator getGenerator() {
@@ -166,7 +172,7 @@ public class Model {
         getQueueNotLoadedContainers().setPainter(this.mainWindow.getNotLoadedContainers().getPainter());
         getQueueWorkingTeams().setPainter(this.mainWindow.getWorkingTeams().getPainter());
         getQueuePlanes().setPainter(this.mainWindow.getPlaneQueue().getPainter());
-
+        getQueueTO().setPainter(this.mainWindow.getTechnicalService().getPainter());
         if (this.mainWindow.getConsoleProtocol().isSelected()) {
             dispatcher.setProtocolFileName("Console");
         } else {
