@@ -10,6 +10,7 @@ import rnd.Uniform;
 import widgets.ChooseData;
 import widgets.ChooseRandom;
 import widgets.Diagram;
+import widgets.experiments.ExperimentManager;
 import widgets.stat.StatisticsManager;
 
 import javax.swing.*;
@@ -84,6 +85,7 @@ public class MainWindow {
 
     private Diagram technicalService;
     private StatisticsManager stat;
+    private ExperimentManager experimentManager;
 
     public MainWindow() {
         numWorkingTeams.setTitle("Кількість бригад");
@@ -116,6 +118,8 @@ public class MainWindow {
             }
         });
         stat.setFactory((d)-> new Model(d, this));
+        experimentManager.set
+        experimentManager.setFactory((d)-> new Model(d, this));
     }
 
     public static void main(String[] args) throws Exception {

@@ -7,12 +7,13 @@ import rgr.MainWindow;
 import stat.DiscretHisto;
 import stat.Histo;
 import stat.IHisto;
+import widgets.experiments.IExperimentable;
 import widgets.stat.IStatisticsable;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class Model implements IStatisticsable {
+public class Model implements IStatisticsable, IExperimentable {
     private Dispatcher dispatcher;
     //Посилання на візуальну частину
     private MainWindow mainWindow;
