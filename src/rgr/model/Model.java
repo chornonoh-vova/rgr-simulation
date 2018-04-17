@@ -5,8 +5,14 @@ import process.MultiActor;
 import process.QueueForTransactions;
 import rgr.MainWindow;
 import stat.DiscretHisto;
+import stat.Histo;
+import stat.IHisto;
+import widgets.stat.IStatisticsable;
 
-public class Model {
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+public class Model implements IStatisticsable {
     private Dispatcher dispatcher;
     //Посилання на візуальну частину
     private MainWindow mainWindow;
@@ -30,6 +36,18 @@ public class Model {
     private QueueForTransactions<Double> queueCustomsContainers;
     private QueueForTransactions<Double> queueNotLoadedContainers;
     private QueueForTransactions<Plane> queuePlanes;
+    private Histo planeWait = new Histo();
+
+    public Histo getCustomWait() {
+        return customWait;
+    }
+
+    public Histo getToWait() {
+        return toWait;
+    }
+
+    private Histo customWait = new Histo();
+    private Histo toWait = new Histo();
 
     public QueueForTransactions<Plane> getQueueTO() {
         if (queueTO == null) {
@@ -63,6 +81,11 @@ public class Model {
         dispatcher.addStartingActor(getMultiWorkingTeams());
         dispatcher.addStartingActor(getMultiPlane());
         dispatcher.addStartingActor(getTechnicalService());
+        workingTeamsHisto = new DiscretHisto();
+        customsContainersHisto = new DiscretHisto();
+        notLoadedContainersHisto = new DiscretHisto();
+        planeQueueHisto = new DiscretHisto();
+        TOHisto = new DiscretHisto();
     }
 
     public Generator getGenerator() {
@@ -74,21 +97,21 @@ public class Model {
 
     public QueueForTransactions<WorkingTeams> getQueueWorkingTeams() {
         if (queueWorkingTeams == null) {
-            queueWorkingTeams = new QueueForTransactions<>("QueueWorkingTeams", dispatcher, getHistoNotLoadedQueue());
+            queueWorkingTeams = new QueueForTransactions<>("QueueWorkingTeams", dispatcher, workingTeamsHisto);
         }
         return queueWorkingTeams;
     }
 
     public QueueForTransactions<Double> getQueueCustomsContainers() {
         if (queueCustomsContainers == null) {
-            queueCustomsContainers = new QueueForTransactions<>("QueueCustomsContainers", dispatcher, getHistoNotLoadedQueue());
+            queueCustomsContainers = new QueueForTransactions<>("QueueCustomsContainers", dispatcher, customsContainersHisto);
         }
         return queueCustomsContainers;
     }
 
     public QueueForTransactions<Double> getQueueNotLoadedContainers() {
         if (queueNotLoadedContainers == null) {
-            queueNotLoadedContainers = new QueueForTransactions<>("QueueNotLoaded", dispatcher, getHistoNotLoadedQueue());
+            queueNotLoadedContainers = new QueueForTransactions<>("QueueNotLoaded", dispatcher, notLoadedContainersHisto);
         }
         return queueNotLoadedContainers;
     }
@@ -99,7 +122,7 @@ public class Model {
 
     public QueueForTransactions<Plane> getQueuePlanes() {
         if (queuePlanes == null) {
-            queuePlanes = new QueueForTransactions<>("QueuePlane", dispatcher, getHistoPlaneQueue());
+            queuePlanes = new QueueForTransactions<>("QueuePlane", dispatcher, planeQueueHisto);
         }
         return queuePlanes;
     }
@@ -178,5 +201,28 @@ public class Model {
         } else {
             dispatcher.setProtocolFileName("");
         }
+    }
+
+    @Override
+    public Map<String, IHisto> getStatistics() {
+        Map<String, IHisto> map = new LinkedHashMap<>();
+        map.put("Черга контейнерів", this.customsContainersHisto);
+        map.put("Черга незавантажених", this.notLoadedContainersHisto);
+        map.put("Працюючі команди", this.workingTeamsHisto);
+        map.put("Черга літаків", this.planeQueueHisto);
+        map.put("Черга на ТО", this.TOHisto);
+        map.put("Час очікування літаків", this.planeWait);
+        map.put("Час очікування митниці", this.customWait);
+        map.put("Час очікування TO", this.toWait);
+        return map;
+    }
+
+    @Override
+    public void initForStatistics() {
+
+    }
+
+    public Histo getHistoPlaneWait() {
+        return planeWait;
     }
 }

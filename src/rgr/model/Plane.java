@@ -25,15 +25,7 @@ public class Plane extends Actor {
 
     private List<Double> containerList = new ArrayList<>();
 
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
-    }
-
-    private int size = 2;
+    private int size = 10;
     private double modellingTime;
     private QueueForTransactions<Plane> queuePlane;
 
@@ -42,6 +34,7 @@ public class Plane extends Actor {
         this.model = model;
         this.modellingTime = mainWindow.getModellingTime().getDouble();
         this.queuePlane = model.getQueuePlanes();
+        this.setHistoForActorWaitingTime(model.getHistoPlaneWait());
     }
 
     @Override
@@ -58,6 +51,7 @@ public class Plane extends Actor {
             while (!containerList.isEmpty()) {
                 double container = containerList.remove(0);
                 double serviceTime = dispatcher.getCurrentTime() - container;
+//                holdForTime(serviceTime);
                 //TODO: add to histo
             }
             holdForTime(mainWindow.getFlyTime().next());
@@ -69,7 +63,7 @@ public class Plane extends Actor {
     }
 
     public boolean isFull() {
-        return containerList.size() < getSize();
+        return containerList.size() < size;
     }
 
     public boolean isReady() {

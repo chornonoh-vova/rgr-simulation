@@ -10,6 +10,7 @@ import rnd.Uniform;
 import widgets.ChooseData;
 import widgets.ChooseRandom;
 import widgets.Diagram;
+import widgets.stat.StatisticsManager;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -82,6 +83,7 @@ public class MainWindow {
     }
 
     private Diagram technicalService;
+    private StatisticsManager stat;
 
     public MainWindow() {
         numWorkingTeams.setTitle("Кількість бригад");
@@ -94,8 +96,8 @@ public class MainWindow {
         containerInterval.setRandom(new Negexp(1));
         customsProductivity.setRandom(new Norm(10, 2));
         workerProductivity.setRandom(new Erlang(1, 3));
-        flyTime.setRandom(new Uniform(19, 25));
-        technicalServiceTime.setRandom(new Uniform(16, 65));
+        flyTime.setRandom(new Uniform(10, 15));
+        technicalServiceTime.setRandom(new Erlang(1, 3));
 
 
         modellingTime.addActionListener(e -> {
@@ -113,6 +115,7 @@ public class MainWindow {
                 changeDiagramText();
             }
         });
+        stat.setFactory((d)-> new Model(d, this));
     }
 
     public static void main(String[] args) throws Exception {
@@ -135,6 +138,9 @@ public class MainWindow {
         }
         if (planeQueue.isShowing()) {
             planeQueue.setHorizontalMaxText(modellingTime.getText());
+        }
+        if (technicalService.isShowing()) {
+            technicalService.setHorizontalMaxText(modellingTime.getText());
         }
     }
 

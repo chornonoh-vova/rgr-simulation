@@ -20,6 +20,7 @@ public class Customs extends Actor {
         this.model = model;
         this.modellingTime = mainWindow.getModellingTime().getDouble();
         this.customsProductivity = mainWindow.getCustomsProductivity();
+        this.setHistoForActorWaitingTime(model.getCustomWait());
     }
 
     @Override

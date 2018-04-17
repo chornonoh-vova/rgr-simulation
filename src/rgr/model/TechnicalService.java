@@ -17,6 +17,8 @@ public class TechnicalService extends Actor {
         this.mainWindow = mainWindow;
         this.model = model;
         this.modellingTime = mainWindow.getModellingTime().getDouble();
+        this.setHistoForActorWaitingTime(model.getToWait());
+
     }
 
     @Override

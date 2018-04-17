@@ -42,7 +42,6 @@ public class WorkingTeams extends Actor {
                 plane.getContainerList().add(container);
                 model.getQueueWorkingTeams().remove(this);
             }
-
         }
     }
 }
