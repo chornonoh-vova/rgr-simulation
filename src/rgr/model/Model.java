@@ -226,4 +226,14 @@ public class Model implements IStatisticsable, IExperimentable {
     public Histo getHistoPlaneWait() {
         return planeWait;
     }
+
+    @Override
+    public void initForExperiment(double v) {
+
+    }
+
+    @Override
+    public Map<String, Double> getResultOfExperiment() {
+        return null;
+    }
 }
