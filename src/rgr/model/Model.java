@@ -229,11 +229,21 @@ public class Model implements IStatisticsable, IExperimentable {
 
     @Override
     public void initForExperiment(double v) {
-
+        getMultiPlane().setNumberOfClones((int) v);
     }
 
     @Override
     public Map<String, Double> getResultOfExperiment() {
-        return null;
+        Map<String, Double> map = new LinkedHashMap<>();
+        map.put("Черга контейнерів", this.customsContainersHisto.getAverage());
+        map.put("Черга незавантажених", this.notLoadedContainersHisto.getAverage());
+        map.put("Працюючі команди", this.workingTeamsHisto.getAverage());
+        map.put("Черга літаків", this.planeQueueHisto.getAverage());
+        map.put("Черга на ТО", this.TOHisto.getAverage());
+        map.put("Час очікування літаків", this.planeWait.getAverage());
+        map.put("Час очікування митниці", this.customWait.getAverage());
+        map.put("Час очікування TO", this.toWait.getAverage());
+        System.out.println(map.get("Час очікування літаків"));
+        return map;
     }
 }

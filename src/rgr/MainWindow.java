@@ -120,6 +120,8 @@ public class MainWindow {
         stat.setFactory((d)-> new Model(d, this));
        // experimentManager.set
         experimentManager.setFactory((d)-> new Model(d, this));
+        experimentManager.getChooseDataFactors().setTitle("Кількість літаків");
+        experimentManager.getChooseDataFactors().setText("21 25 30");
     }
 
     public static void main(String[] args) throws Exception {
