@@ -122,6 +122,8 @@ public class MainWindow {
         experimentManager.setFactory((d)-> new Model(d, this));
         experimentManager.getChooseDataFactors().setTitle("Кількість літаків");
         experimentManager.getChooseDataFactors().setText("21 25 30");
+        experimentManager.getDiagram().setHorizontalMaxText("50");
+        experimentManager.getDiagram().setVerticalMaxText("30");
     }
 
     public static void main(String[] args) throws Exception {
