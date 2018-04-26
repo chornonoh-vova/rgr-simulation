@@ -12,6 +12,7 @@ import widgets.ChooseRandom;
 import widgets.Diagram;
 import widgets.experiments.ExperimentManager;
 import widgets.stat.StatisticsManager;
+import widgets.trans.TransProcessManager;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -86,6 +87,7 @@ public class MainWindow {
     private Diagram technicalService;
     private StatisticsManager stat;
     private ExperimentManager experimentManager;
+    private TransProcessManager transprocessmanager;
 
     public MainWindow() {
         numWorkingTeams.setTitle("Кількість бригад");
@@ -124,6 +126,7 @@ public class MainWindow {
         experimentManager.getChooseDataFactors().setText("21 25 30");
         experimentManager.getDiagram().setHorizontalMaxText("50");
         experimentManager.getDiagram().setVerticalMaxText("30");
+        transprocessmanager.setFactory((d)-> new Model(d, this));
     }
 
     public static void main(String[] args) throws Exception {

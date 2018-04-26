@@ -9,11 +9,13 @@ import stat.Histo;
 import stat.IHisto;
 import widgets.experiments.IExperimentable;
 import widgets.stat.IStatisticsable;
+import widgets.trans.ITransMonitoring;
+import widgets.trans.ITransProcesable;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class Model implements IStatisticsable, IExperimentable {
+public class Model implements IStatisticsable, IExperimentable, ITransProcesable {
     private Dispatcher dispatcher;
     //Посилання на візуальну частину
     private MainWindow mainWindow;
@@ -244,6 +246,22 @@ public class Model implements IStatisticsable, IExperimentable {
         map.put("Час очікування митниці", this.customWait.getAverage());
         map.put("Час очікування TO", this.toWait.getAverage());
         System.out.println(map.get("Час очікування літаків"));
+        return map;
+    }
+
+    @Override
+    public void initForTrans(double v) {
+
+    }
+
+    @Override
+    public Map<String, ITransMonitoring> getMonitoringObjects() {
+        Map<String, ITransMonitoring> map = new LinkedHashMap<>();
+        map.put("Черга контейнерів", this.getQueueCustomsContainers());
+        map.put("Черга незавантажених", this.queueNotLoadedContainers);
+        map.put("Працюючі команди", this.queueWorkingTeams);
+        map.put("Черга літаків", this.queuePlanes);
+        map.put("Черга на ТО", this.queueTO);
         return map;
     }
 }
