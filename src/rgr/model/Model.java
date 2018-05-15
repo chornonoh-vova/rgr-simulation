@@ -251,17 +251,21 @@ public class Model implements IStatisticsable, IExperimentable, ITransProcesable
 
     @Override
     public void initForTrans(double v) {
-
+        getGenerator().setFinishTime(v);
+        mainWindow.getModellingTime().setDouble(v);
     }
 
     @Override
     public Map<String, ITransMonitoring> getMonitoringObjects() {
         Map<String, ITransMonitoring> map = new LinkedHashMap<>();
         map.put("Черга контейнерів", this.getQueueCustomsContainers());
-        map.put("Черга незавантажених", this.queueNotLoadedContainers);
-        map.put("Працюючі команди", this.queueWorkingTeams);
-        map.put("Черга літаків", this.queuePlanes);
-        map.put("Черга на ТО", this.queueTO);
+        map.put("Черга незавантажених", this.getQueueNotLoadedContainers());
+        map.put("Працюючі команди", this.getQueueWorkingTeams());
+        map.put("Черга літаків", this.getQueuePlanes());
+        map.put("Черга на ТО", this.getQueueTO());
+        for (ITransMonitoring item: map.values()) {
+            System.out.println(item);
+        }
         return map;
     }
 }

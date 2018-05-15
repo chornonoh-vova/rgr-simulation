@@ -28,4 +28,8 @@ public class Generator extends Actor {
             getDispatcher().printToProtocol(" " + getNameForProtocol() + " creates transaction");
         }
     }
+
+    public void setFinishTime(double time) {
+        modellingTime = time;
+    }
 }
